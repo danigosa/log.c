@@ -30,8 +30,8 @@ void log_set_fp(FILE *fp);
 void log_set_console_level(int level);
 void log_set_file_level(int level);
 void log_set_quiet(int enable);
-const char* get_console_level_name(int level);
-const char* get_file_level_name(int level);
+const char* get_console_level_name(void);
+const char* get_file_level_name(void);
 
 void log_log(int level, const char *file, int line, const char *fmt, ...);
 
