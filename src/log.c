@@ -109,15 +109,8 @@ void log_set_quiet(int enable) {
 
 
 void log_log(int level, const char *file, int line, const char *fmt, ...) {
-    if (level < L.console_level && level < L.file_level) {
-        return;
-    } else if (L.quiet && !L.fp) {
-        return;
-    }
-
     /* Acquire lock */
     lock();
-
     /* Get current time */
     time_t t = time(NULL);
     struct tm *lt = localtime(&t);
@@ -142,7 +135,7 @@ void log_log(int level, const char *file, int line, const char *fmt, ...) {
     }
 
     /* Log to file */
-    if (L.fp && level >= L.file_level) {
+    if (!L.quiet && L.fp > 0 && level >= L.file_level) {
         va_list args;
         char buf[32];
         buf[strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S %Z", lt)] = '\0';
